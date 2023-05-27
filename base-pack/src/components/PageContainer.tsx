@@ -6,7 +6,7 @@ import React from "react";
 const PageContainer = ({ children }: { children: JSX.Element }) => {
   return (
     <main>
-      <Container maxWidth="xl" sx={{ paddingY:"2rem" }}>
+      <Container disableGutters maxWidth={false} sx={{ padding:"2rem" }}>
         {children}
       </Container>
     </main>

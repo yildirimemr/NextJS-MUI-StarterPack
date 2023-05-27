@@ -8,7 +8,7 @@ import Switch from "@mui/material/Switch";
 import ColorModeContext from "@/theme/DarkLightThemeContext";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 62,
+  width: 100,
   height: 34,
   padding: 7,
   "& .MuiSwitch-switchBase": {
@@ -17,7 +17,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     transform: "translateX(6px)",
     "&.Mui-checked": {
       color: "#fff",
-      transform: "translateX(22px)",
+      transform: "translateX(64px)",
       "& .MuiSwitch-thumb:before": {
         backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
           "#fff"
