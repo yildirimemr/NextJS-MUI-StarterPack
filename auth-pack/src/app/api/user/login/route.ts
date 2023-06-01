@@ -1,11 +1,7 @@
 import { signJwtAccessToken } from "@/utils/jwt";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
-
-interface RequestBody {
-  username: string;
-  password: string;
-}
+import RequestBody from "@/utils/interfaces/IUserLoginReqBody";
 
 export async function POST(request: Request) {
   const body: RequestBody = await request.json();

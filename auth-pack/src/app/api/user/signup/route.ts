@@ -1,11 +1,6 @@
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
-
-interface RequestBody {
-  name: string;
-  email: string;
-  password: string;
-}
+import RequestBody from "@/utils/interfaces/IUserCreateReqBody";
 
 export async function POST(request: Request) {
   const body: RequestBody = await request.json();

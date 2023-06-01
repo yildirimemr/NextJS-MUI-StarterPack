@@ -1,8 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-
-interface SignOption {
-  expiresIn?: string | number;
-}
+import SignOption from "./interfaces/IJwtSignOptions";
 
 const DEFAULT_SIGN_OPTION: SignOption = {
   expiresIn: "1h",

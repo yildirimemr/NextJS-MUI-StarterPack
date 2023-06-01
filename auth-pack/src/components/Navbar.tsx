@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -137,9 +137,18 @@ function Navbar() {
 
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Robot Robot" src="/robot.png" />
-                  </IconButton>
+                  <Typography
+                    onClick={handleOpenUserMenu}
+                    variant="h6"
+                    noWrap
+                    sx={{
+                      p: 0,
+                      "&:hover": { cursor: "pointer" },
+                    }}
+                  >
+                    Emre Yıldırım
+                    <KeyboardArrowDownIcon sx={{ verticalAlign: "middle" }} />
+                  </Typography>
                 </Tooltip>
                 <Menu
                   sx={{ mt: "45px" }}
