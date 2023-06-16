@@ -1,8 +1,7 @@
-import SignInButton from "@/components/SignInButton";
 import React from "react";
 
 const HomePage = () => {
-  return <SignInButton />;
+  return <div>asdasd</div>;
 };
 
 export default HomePage;

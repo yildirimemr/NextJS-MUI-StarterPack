@@ -9,6 +9,7 @@ const handler = NextAuth({
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
+        test: {type: "text", value:"deneme"},
       },
       async authorize(credentials, req) {
         const res = await fetch(process.env.NEXTAUTH_URL + "/api/user/login", {
@@ -47,6 +48,9 @@ const handler = NextAuth({
     //async encode() {}, if you want to custom encode method
     //async decode() {}, if you want to custom decode method
   },
+  pages:{
+    signIn:"/auth/signIn"
+  }
 });
 
 export { handler as GET, handler as POST };

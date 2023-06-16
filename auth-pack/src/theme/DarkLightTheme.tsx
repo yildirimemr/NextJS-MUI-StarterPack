@@ -22,7 +22,7 @@ const DarkLightTheme = ({ children }: { children: JSX.Element }) => {
       createTheme({
         palette: {
           mode,
-          ...(mode === 'light'
+          ...(mode === "light"
             ? {
                 primary: green,
                 divider: green[200],
@@ -39,10 +39,22 @@ const DarkLightTheme = ({ children }: { children: JSX.Element }) => {
                   paper: "#343a40",
                 },
                 text: {
-                  primary: '#fff',
+                  primary: "#fff",
                   secondary: grey[300],
                 },
               }),
+        },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                color: "white",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                borderColor:"white"                
+              },
+            },
+          },
         },
       }),
     [mode]
