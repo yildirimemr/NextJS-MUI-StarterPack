@@ -1,8 +1,0 @@
--- for using css in JSX: 
-
-/** @jsxImportSource @emotion/react */
-"use client";
-
-export default function Page() {
-  return <div css={{ color: "green" }}>something</div>;
-}

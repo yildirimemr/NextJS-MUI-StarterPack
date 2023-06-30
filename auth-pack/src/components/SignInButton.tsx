@@ -6,12 +6,11 @@ import {
   Button,
   Menu,
   MenuItem,
-  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const settings = [
@@ -44,6 +43,16 @@ const SignInOutButton = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const signOutHandler = async (e: any) => {
+    e.preventDefault();
+    const result = await signOut({
+      redirect: false,
+    });
+    if (result) {
+      router.push("/");
+    }
   };
 
   if (hasSession) {
@@ -90,7 +99,7 @@ const SignInOutButton = () => {
             </MenuItem>
           ))}
           <MenuItem onClick={handleCloseUserMenu}>
-            <Typography textAlign="center" onClick={() => signOut()}>
+            <Typography textAlign="center" onClick={(e) => signOutHandler(e)}>
               Logout
             </Typography>
           </MenuItem>
@@ -100,7 +109,7 @@ const SignInOutButton = () => {
   }
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Button variant="outlined" onClick={() => signIn()}>
+      <Button variant="outlined" onClick={() => router.push("/auth/signIn")}>
         Sign in
       </Button>
     </Box>

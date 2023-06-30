@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import RequestBody from "@/utils/interfaces/IUserCreateReqBody";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -15,28 +15,26 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { SignInResponse, signIn } from "next-auth/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [hasError, setHaserror] = useState<boolean>(false);
+  const fullname = useRef("");
   const username = useRef("");
   const password = useRef("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -47,29 +45,66 @@ const SignInPage = () => {
     setOpenSnackBar(false);
   };
 
+  const setError = (message: string) => {
+    setAlertMessage(message);
+    setHaserror(true);
+    setOpenSnackBar(true);
+  };
+
+  const checkSignup = (): boolean => {
+    const _fullname = fullname.current;
+    if (_fullname === "") {
+      setError("Full name cannot be empty!");
+      return false;
+    }
+
+    const _email = username.current;
+    if (_email === "") {
+      setError("Email cannot be empty!");
+      return false;
+    }
+
+    const _password = password.current;
+    if (_password === "") {
+      setError("Password cannot be empty!");
+      return false;
+    }
+
+    return true;
+  };
+
   const onSubmit = async (e: any) => {
-    e.preventDefault();
-    const result: SignInResponse | undefined = await signIn("credentials", {
-      username: username.current,
+    if (!checkSignup()) {
+      return;
+    }
+
+    const requestBody: RequestBody = {
+      name: fullname.current,
+      email: username.current,
       password: password.current,
-      redirect: false,
+    };
+
+    const response = await fetch("/api/user/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody),
     });
-    if (result) {
-      const { error, ok } = result;
-      if (ok) {
-        const hasError = error !== null;
-        if (hasError) {
-          setAlertMessage("Username or password is wrong!")
-          setHaserror(true);
-          setOpenSnackBar(true);
-        } else {
-          router.push("/");
-        }
+    const JsonResponse = await response.json();
+
+    if (JsonResponse) {
+      const login: SignInResponse | undefined = await signIn("credentials", {
+        username: username.current,
+        password: password.current,
+        redirect: false,
+      });
+
+      if (login) {
+        router.push("/");
       } else {
-        setAlertMessage("Something went wrong!")
+        setError("Something went wrong!");
       }
     } else {
-      setAlertMessage("Something went wrong!")
+      setError("Something went wrong!");
     }
   };
 
@@ -100,8 +135,6 @@ const SignInPage = () => {
           spacing={2}
           sx={{
             p: "2rem",
-            border: "1px dashed",
-            borderRadius: "5px",
             width: "100%",
           }}
         >
@@ -110,8 +143,18 @@ const SignInPage = () => {
             textAlign={"center"}
             sx={{ textDecoration: "underline" }}
           >
-            Sign In
+            Sign Up
           </Typography>
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="outlined-fullname">Full Name</InputLabel>
+            <OutlinedInput
+              error={hasError}
+              id="outlined-fullname"
+              type="text"
+              label="Full Name"
+              onChange={(e) => (fullname.current = e.target.value)}
+            />
+          </FormControl>
           <FormControl variant="outlined">
             <InputLabel htmlFor="outlined-username">Email</InputLabel>
             <OutlinedInput
@@ -147,21 +190,12 @@ const SignInPage = () => {
             />
           </FormControl>
           <Button variant="contained" onClick={onSubmit}>
-            Sign in
+            Sign Up
           </Button>
-          <Typography
-            variant="body1"
-            textAlign={"left"}
-            component={Link}
-            href={"/auth/signUp"}
-            sx={{color:"inherit"}}
-          >
-            Create an account. 
-          </Typography>
         </Stack>
       </Box>
     </>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;

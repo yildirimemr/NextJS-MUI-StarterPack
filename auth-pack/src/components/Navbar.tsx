@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,10 +15,25 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import CustomizedSwitches from "./ThemeSwitcher";
 import SignInOutButton from "./SignInButton";
+import { useRouter } from "next/navigation";
 
-const pages = ["Page 1", "Page 2", "Page 3"];
+const pages = [
+  {
+    label: "Protected Page",
+    redirect: "/user-protected",
+  },
+  {
+    label: "Page 2",
+    redirect: "/",
+  },
+  {
+    label: "Page 3",
+    redirect: "/",
+  },
+];
 
 function Navbar() {
+  const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -30,7 +46,6 @@ function Navbar() {
     setAnchorElNav(null);
   };
 
-
   return (
     <header>
       <Box>
@@ -42,7 +57,7 @@ function Navbar() {
               <Typography
                 variant="h6"
                 noWrap
-                component="a"
+                component={Link}
                 href="/"
                 sx={{
                   mr: 2,
@@ -87,8 +102,14 @@ function Navbar() {
                   }}
                 >
                   {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
+                    <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                      <Typography
+                        textAlign="center"
+                        component={Link}
+                        href={page.redirect}
+                      >
+                        {page.label}
+                      </Typography>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -97,8 +118,8 @@ function Navbar() {
               <Typography
                 variant="h5"
                 noWrap
-                component="a"
-                href=""
+                component={Link}
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "flex", md: "none" },
@@ -115,17 +136,18 @@ function Navbar() {
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
                   <Button
-                    key={page}
+                    key={page.label}
                     onClick={handleCloseNavMenu}
+                    component={Link}
+                    href={page.redirect}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
-                    {page}
+                    {page.label}
                   </Button>
                 ))}
               </Box>
-              
-              <SignInOutButton/>
-              
+
+              <SignInOutButton />
             </Toolbar>
           </Container>
         </AppBar>

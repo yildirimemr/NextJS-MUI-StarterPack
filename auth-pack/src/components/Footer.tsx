@@ -13,7 +13,7 @@ export const Footer: FC = (): ReactElement => {
         <Container maxWidth="lg">
           <Grid container direction="column" alignItems="center">
             <Grid item xs={12}>
-              <Typography variant="h5">Next Starter Pack</Typography>
+              <Typography variant="h5">NextJS Starter Pack</Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography color="textSecondary" variant="subtitle1">
